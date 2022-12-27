@@ -1,0 +1,57 @@
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+.col-form-label {
+    color: whitesmoke !important;
+}
+.form-control {
+    background-color: #343333;
+}
+
+// buttons
+@import "dark-mode/buttons";
+
+/* redefine theme colors for dark theme */
+$primary: #012345;
+$secondary: #111111;
+$success: #222222;
+$dark: #000;
+
+.text-primary {
+    color: $primary;
+}
+
+.dark {
+    $theme-colors: (
+        "primary": $primary,
+        "secondary": $secondary,
+        "success": $success,
+        "danger": $danger,
+        "info": $indigo,
+        "dark": $dark,
+        "light": $light,
+    );
+
+    /* redefine theme color variables */
+    @each $color, $value in $theme-colors {
+        --#{$variable-prefix}#{$color}: #{$value};
+    }
+
+    /* redefine theme color rgb vars (used for bg- colors) */
+    $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+    @each $color, $value in $theme-colors-rgb {
+        --#{$variable-prefix}#{$color}-rgb: #{$value};
+    }
+
+    $body-color: #eeeeee;
+    $body-bg: #263C5C;
+    
+    --#{$variable-prefix}body-color: #{$body-color};
+    --#{$variable-prefix}body-bg: #{$body-bg};
+      
+    @import "bootstrap/bootstrap.scss";
+}
+.navbar-brand {
+    font-family: "Kalam", sans-serif;
+}

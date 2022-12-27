@@ -1,0 +1,81 @@
+<app-navbar></app-navbar>
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-lg-4">
+            <div class="card color-gray">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col col-lg-2 mb-2">
+                            <label for="inputEmail3" class="col-form-label text-nowrap">Diskon</label>
+                        </div>
+                        <div class="col mb-2 d-flex align-items-center justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-sm dark" [ngClass]="model.diskon.tipe == 'persen' ? 'btn-primary dark' : 'btn-outline-primary'" (click)="btnSwitchDiskon('persen')">Persen</button>
+                                <button type="button" class="btn btn-sm dark" [ngClass]="model.diskon.tipe == 'nominal' ? 'btn-primary dark' : 'btn-outline-primary'" (click)="btnSwitchDiskon('nominal')">Nominal</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-5 d-flex align-items-center">
+                            <div class="input-group input-group-sm mb-2">
+                                <span class="input-group-text" *ngIf="model.diskon.tipe == 'nominal'">Rp</span>
+                                <input type="tel" class="form-control text-end color-white" aria-label="Amount (to the nearest rupiah)"
+                                    placeholder="0" mask="separator" thousandSeparator="." [separatorLimit]="model.diskon.tipe == 'persen' ? '100' : ''"
+                                    [(ngModel)]="model.diskon.jumlah" (keyup)="castToInt()">
+                                <span class="input-group-text" *ngIf="model.diskon.tipe == 'persen'">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="ongkir" class="form-label color-white">Ongkir</label>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text">Rp</span>
+                                <input type="tel" class="form-control text-end color-white" aria-label="Amount (to the nearest rupiah)" 
+                                    placeholder="0" mask="separator" thousandSeparator="."
+                                    [(ngModel)]="model.ongkir" (keyup)="castToInt()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card color-gray mt-3 mb-4" *ngFor="let val of listPembeli; let i = index">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-2 d-flex align-items-center" style="max-width: 52px">
+                            <button type="button" class="btn btn-sm btn-danger dark" (click)="hapusPembeli(i)">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <input type="text" [(ngModel)]="val.nama" class="form-control form-control-sm color-white" placeholder="Nama Pembeli" aria-label="Nama Pembeli">
+                        </div>
+                        <div class="col d-grid gap-2">
+                            <button type="button" class="btn btn-sm btn-primary dark" (click)="tambahItem(i)">+ Tambah Item</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="val.item.length != 0">
+                    <div class="row" [ngClass]="i2 != 0 ? 'mt-3' :'mt-1'" *ngFor="let val2 of val.item; let i2 = index">
+                        <div class="col-2 d-flex align-items-center" style="max-width: 52px">
+                            <button type="button" class="btn btn-sm btn-danger dark" (click)="hapusItem(i, i2)">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <input type="text" [(ngModel)]="val2.nama" class="form-control form-control-sm color-white" placeholder="Ex: Mie Goreng" aria-label="Ex: Mie Goreng">
+                        </div>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text">Rp</span>
+                                <input type="tel" [(ngModel)]="val2.harga" class="form-control text-end color-white" aria-label="Amount (to the nearest rupiah)"
+                                    mask="separator" mask="separator" thousandSeparator="."
+                                    placeholder="0" (keyup)="castToInt()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-navbar-bottom (tambahPembeli)="tambahPembeli()" [listPembeli]="result()"></app-navbar-bottom>

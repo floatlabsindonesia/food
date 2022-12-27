@@ -1,0 +1,24 @@
+.color-black {
+    background-color: #131313;
+    color: whitesmoke;
+}
+.color-gray {
+    background-color: #232323;
+    color: whitesmoke;
+}
+.color-gray-form {
+    background-color: #343333;
+    color: whitesmoke;
+}
+.color-white {
+    color: whitesmoke;
+}
+
+.rounded-top-5 {
+    border-top-left-radius: var(--bs-border-radius-2xl) !important;
+    border-top-right-radius: var(--bs-border-radius-2xl) !important;
+}
+
+.canvas-height {
+    --bs-offcanvas-height: 60vh;
+}
