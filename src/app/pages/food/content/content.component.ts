@@ -21,11 +21,11 @@ export class ContentComponent {
         }
         this.listPembeli = [
             {
-                nama: null,
-                item: [
+                nama    : null,
+                item    : [
                     {
-                        nama: null,
-                        harga: 0
+                        nama    : null,
+                        harga   : null
                     }
                 ]
             }
@@ -41,17 +41,17 @@ export class ContentComponent {
     }
 
     tambahItem(index: any){
-        this.listPembeli[index].item.push({nama: null,harga: 0})        
+        this.listPembeli[index].item.push({nama: null,harga: null})        
     }
 
     tambahPembeli(){
         this.listPembeli.push(
             {
-                nama: null,
-                item: [
+                nama    : null,
+                item    : [
                     {
-                        nama: null,
-                        harga: 0
+                        nama    : null,
+                        harga   : null
                     }
                 ]
             }
@@ -69,5 +69,9 @@ export class ContentComponent {
 
     result(){
         return this.listPembeli
+    }
+
+    dataPengaturan(){
+        return this.model
     }
 }

@@ -6,11 +6,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     styleUrls   : ['./navbar-bottom.component.scss']
 })
 export class NavbarBottomComponent implements OnInit {
+    @Input()    dataPengaturan  : any = {};
     @Input()    listPembeli     : any = [];
     @Output()   tambahPembeli   = new EventEmitter<string>();
 
+    listResult: any = []
+
     ngOnInit() {
-        console.log(this.listPembeli)
+        // console.log(this.listPembeli)
     }
 
     addPenerima(){
@@ -18,6 +21,51 @@ export class NavbarBottomComponent implements OnInit {
     }
 
     hitung(){
-        console.log(this.listPembeli)
+        let model = {
+            diskon  : {
+                tipe    : this.dataPengaturan.diskon.tipe,
+                jumlah  : this.dataPengaturan.diskon.jumlah ?? 0
+            },
+            ongkir  : this.dataPengaturan.ongkir ?? 0
+        }
+        let modelPembeli    : any = [];
+        let ongkir = model.ongkir / this.listPembeli.length
+
+        this.listPembeli.forEach((val: any, key: any) => {
+            let subtotal = 0
+            val.item.forEach((val2: any, key2: any) => {
+                subtotal = val2.harga != null ? (subtotal + val2.harga) : subtotal + 0
+            })
+            modelPembeli.push({
+                nama        : val.nama ?? "Pembeli " + (key + 1),
+                subtotal    : "Rp" + (subtotal.toLocaleString("id-ID")),
+                diskon      : this.hitungDiskon(subtotal).string,
+                ongkir      : "Rp" + ongkir,
+                total       : "Rp" + (subtotal - this.hitungDiskon(subtotal).digit + ongkir).toLocaleString("id-ID")
+            })
+        });
+
+        console.log({
+            listAwal: this.listPembeli,
+            pembeli: modelPembeli})
+        return this.listPembeli = modelPembeli
+    }
+
+    hitungDiskon(harga: any){
+        let tipe    = this.dataPengaturan.diskon.tipe
+        let jumlah  = this.dataPengaturan.diskon.jumlah ?? 0
+        
+        if(tipe == "persen" && jumlah != 0){
+            return {
+                string: "(" + jumlah + "%) -Rp" + ((jumlah * harga) / 100).toLocaleString('id-ID'),
+                digit: ((jumlah * harga) / 100)
+            }
+        } else {
+            let diskon = jumlah / this.listPembeli.length
+            return {
+                string: "Rp" + diskon.toLocaleString('id-ID'),
+                digit: diskon
+            }
+        }
     }
 }

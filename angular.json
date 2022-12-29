@@ -8,7 +8,7 @@
     }
   },
   "projects": {
-    "timbulaquatic-admin": {
+    "food": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -22,7 +22,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/timbulaquatic-admin",
+            "outputPath": "dist/skote",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -54,6 +54,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -83,10 +89,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "timbulaquatic-admin:build:production"
+              "browserTarget": "food:build:production"
             },
             "development": {
-              "browserTarget": "timbulaquatic-admin:build:development"
+              "browserTarget": "food:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -94,7 +100,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "timbulaquatic-admin:build"
+            "browserTarget": "food:build"
           }
         },
         "test": {
