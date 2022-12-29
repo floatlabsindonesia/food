@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
     selector    : 'app-navbar-bottom',
@@ -10,10 +11,17 @@ export class NavbarBottomComponent implements OnInit {
     @Input()    listPembeli     : any = [];
     @Output()   tambahPembeli   = new EventEmitter<string>();
 
-    listResult: any = []
+    // Lottie
+    options: AnimationOptions = {
+        path: '/assets/js/empty.json',
+    };
+
+    listResult  : any = []
+
+    total   : any
 
     ngOnInit() {
-        // console.log(this.listPembeli)
+
     }
 
     addPenerima(){
@@ -29,7 +37,7 @@ export class NavbarBottomComponent implements OnInit {
             ongkir  : this.dataPengaturan.ongkir ?? 0
         }
         let modelPembeli    : any = [];
-        let ongkir = model.ongkir / this.listPembeli.length
+        let ongkir          : any = model.ongkir / this.listPembeli.length
 
         this.listPembeli.forEach((val: any, key: any) => {
             let subtotal = 0
@@ -40,15 +48,19 @@ export class NavbarBottomComponent implements OnInit {
                 nama        : val.nama ?? "Pembeli " + (key + 1),
                 subtotal    : "Rp" + (subtotal.toLocaleString("id-ID")),
                 diskon      : this.hitungDiskon(subtotal).string,
-                ongkir      : "Rp" + ongkir,
-                total       : "Rp" + (subtotal - this.hitungDiskon(subtotal).digit + ongkir).toLocaleString("id-ID")
+                ongkir      : "Rp" + ((ongkir).toLocaleString("id-ID")),
+                total       : "Rp" + (subtotal - this.hitungDiskon(subtotal).digit + ongkir).toLocaleString("id-ID"),
+                total_digit : (subtotal - this.hitungDiskon(subtotal).digit + ongkir)
             })
         });
 
-        console.log({
-            listAwal: this.listPembeli,
-            pembeli: modelPembeli})
-        return this.listPembeli = modelPembeli
+        let total = 0
+        modelPembeli.forEach((val: any, key: any) => {
+            total = total + val.total_digit
+        })
+        this.total = "Rp" + (total).toLocaleString("id-ID")
+
+        return this.listResult = modelPembeli
     }
 
     hitungDiskon(harga: any){

@@ -1,10 +1,10 @@
 
-<nav class="navbar color-gray fixed-bottom">
-    <div class="d-grid col-6">
+<nav class="navbar color-gray fixed-bottom pb-4 pt-3">
+    <!-- <div class="d-grid col-6">
         <button class="btn btn-outline-primary mx-2" type="button" (click)="addPenerima()">+ Tambah Pembeli</button>
-    </div>
-    <div class="d-grid col-6">
-        <button class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" (click)="hitung()">Hitung</button>
+    </div> -->
+    <div class="d-grid col mx-auto" style="max-width: 500px;">
+        <button class="btn btn-success mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" (click)="hitung()">Kalkulasi</button>
         <!-- <button class="btn btn-primary mx-2" type="button" (click)="hitung()">Hitung</button> -->
     </div>
 </nav>
@@ -12,13 +12,12 @@
     style="max-width: 500px;">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasBottomLabel">Rincian Harga</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body small">
-        <section *ngFor="let val of listPembeli">
-            <div class="d-flex justify-content-between">
-                <h5>{{ val.nama }}</h5>
-                <h5>{{ val.total }}</h5>
+        <section *ngFor="let val of listResult">
+            <div class="d-flex justify-content-start">
+                <h5 class="fw-bold">{{ val.nama }}</h5>
             </div>
             <div class="d-flex justify-content-between my-2">
                 <span>Sub Total</span>
@@ -32,11 +31,29 @@
                 <span>Ongkir</span>
                 <span>{{ val.ongkir }}</span>
             </div>
-            <div class="d-flex justify-content-between mb-2 fs-6">
+            <div class="d-flex justify-content-between mb-2">
                 <span class="fw-bold">Total</span>
                 <span class="fw-bold">{{ val.total }}</span>
             </div>
             <hr class="text-white mt-0 mb-3">
+        </section>
+        <section *ngIf="listPembeli.length >= 1">
+            <div class="d-flex justify-content-between mb-2 fs-5">
+                <span class="fw-bold">Total</span>
+                <span class="fw-bold">{{ total }}</span>
+            </div>
+        </section>
+
+        <section *ngIf="listPembeli.length == 0">
+            <ng-lottie
+                height="280px"
+                containerClass="moving-box another-class"
+                [options]="options"
+            ></ng-lottie>
+            <p class="text-center mt-3">Data Pembeli kosong</p>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary d-grid col mx-auto" (click)="addPenerima()" data-bs-dismiss="offcanvas">+ Tambah Pembeli</button>
+            </div>
         </section>
     </div>
 </div>

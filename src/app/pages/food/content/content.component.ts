@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector    : 'app-content',
@@ -10,6 +10,8 @@ export class ContentComponent {
     listPembeli         : any = []
 
     model: any
+
+    constructor( private cdref: ChangeDetectorRef ) {}
 
     ngOnInit(): void {
         this.model = {
@@ -34,10 +36,24 @@ export class ContentComponent {
 
     btnSwitchDiskon(tipe: string){
         this.model.diskon.tipe      = tipe
+        this.cdref.detectChanges(); // jika tidak ada ini error
         this.model.diskon.jumlah    = null
     }
 
-    castToInt(){
+    dataPengaturan(){
+        return this.model
+    }
+
+    hapusItem(indexParent: any, indexChild: any){
+        this.listPembeli[indexParent].item.splice(indexChild, 1);
+    }
+
+    hapusPembeli(index: any){
+        this.listPembeli.splice(index, 1);
+    }
+
+    result(){
+        return this.listPembeli
     }
 
     tambahItem(index: any){
@@ -58,20 +74,9 @@ export class ContentComponent {
         )
     }
 
-    
-    hapusItem(indexParent: any, indexChild: any){
-        this.listPembeli[indexParent].item.splice(indexChild, 1);
-    }
-
-    hapusPembeli(index: any){
-        this.listPembeli.splice(index, 1);
-    }
-
-    result(){
-        return this.listPembeli
-    }
-
-    dataPengaturan(){
-        return this.model
+    validasiDiskon(){
+        if(this.model.diskon.tipe == 'persen' && this.model.diskon.jumlah > 100){
+            this.model.diskon.jumlah = 100
+        }
     }
 }
